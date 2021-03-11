@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Near Earth Object Tracker</title>
+</head>
+<body>
+    <h1>Near Earth Object Tracker</h1>
+
+    <div id="navigation">
+        <button type="button" id="prev">Previous Day</button>
+        <span id="date"></span>
+        <button type="button" id="next">Next Day</button>
+    </div>
+
+    <div class="search">
+        <button type="button" id="show-search-btn">Look up specific day</button>
+        <div class="search-form">
+            <input type="text" maxlength="4" size="4" name="search-year" id="search-year" placeholder="YYYY">
+            <input type="text" maxlength="2" size="2" name="search-month" id="search-month" placeholder="MM">
+            <input type="text" maxlength="2" size="2" name="search-day" id="search-day" placeholder="DD">
+            <button type="button" id="search-btn">Search</button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
