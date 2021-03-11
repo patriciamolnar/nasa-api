@@ -30,7 +30,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
     // when page loads query database with today's date. 
     let timestamp = Date.now();
-    fetchApiTimestamp(timestamp);
+    //fetchApiTimestamp(timestamp);
 
     //variable to keep track of how many days we are away from today.
     let num = 0; 

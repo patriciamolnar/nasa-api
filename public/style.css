@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
+
+:root {
+    --font: 'Noto Sans', sans-serif;
+
+    --dark: #0d162b;
+    --intense: magenta;
+    --hover: blueviolet; 
+}
+
+body {
+    background-color: var(--dark); 
+    font-family: var(--font);
+    color: #fff;
+}
+
+/* No outlines on focus */
+.no-focus-outline a:focus,
+.no-focus-outline button:focus {
+  outline: none;
+  box-shadow: none; 
+}
+
+h1 {
+    text-align: center;
+}
+
+#navigation {
+    width: 100%; 
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+#date {
+    font-size: 1.5rem;
+}
+
+.search {
+    text-align: right;
+}
+
+.search-form {
+    display: none; 
+}
+
+.search-form.appear {
+    display: block; 
+}
+
+.search-form label {
+    display:none; 
+}
+.search-form input {
+    height: 25px;
+}
+
+button {
+    background-color: var(--intense);
+    border: none; 
+    padding: 0.5rem 1rem; 
+    border-radius: 5px; 
+    transition: background-color 0.2s linear; 
+}
+
+button:hover {
+    background-color: var(--hover);
+}
+
+#show-search-btn {  
+    padding: 0; 
+    border-radius: 0; 
+    background-color: transparent; 
+    border-bottom: 1px solid var(--intense); 
+    color: var(--intense);
+    transition: all 0.2s linear;
+    margin-bottom: 0.5rem;
+}
+
+#show-search-btn:hover {
+    color: var(--hover); 
+    border-color: var(--hover);
+}

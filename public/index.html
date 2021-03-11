@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-focus-outline">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,21 +11,26 @@
     <h1>Near Earth Object Tracker</h1>
 
     <div id="navigation">
-        <button type="button" id="prev">Previous Day</button>
-        <span id="date"></span>
-        <button type="button" id="next">Next Day</button>
+        <button type="button" id="prev">Prev</button>
+        <span id="date">2020-01-20</span>
+        <button type="button" id="next">Next</button>
     </div>
 
     <div class="search">
         <button type="button" id="show-search-btn">Look up specific day</button>
         <div class="search-form">
+            <!-- <span>Type in date:</span> -->
+            <label for="search-year">type in year</label>
             <input type="text" maxlength="4" size="4" name="search-year" id="search-year" placeholder="YYYY">
+            <label for="search-month">type in month</label>
             <input type="text" maxlength="2" size="2" name="search-month" id="search-month" placeholder="MM">
+            <label for="search-day">type in day</label>
             <input type="text" maxlength="2" size="2" name="search-day" id="search-day" placeholder="DD">
             <button type="button" id="search-btn">Search</button>
         </div>
     </div>
     
     <script src="script.js"></script>
+    <script src="interface.js"></script>
 </body>
 </html>
