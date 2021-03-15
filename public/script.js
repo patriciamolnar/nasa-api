@@ -13,10 +13,16 @@ window.addEventListener('DOMContentLoaded', function() {
     }
 
     const filterSize = (arr) => {
+        let countHazard = 0; 
         let biggest = [0, 0], fastest = 0, closest = 0; 
         let nameBiggest = '', nameFastest = '', nameClosest = '';
 
         arr.forEach(neo => {
+            //count hazardous NEOs
+            if(neo.hazard == true) {
+                ++countHazard;
+            }
+
             //save biggest NEO
             const diameterMin = parseFloat(neo.diameter.kilometers.estimated_diameter_min);
             const diameterMax = parseFloat(neo.diameter.kilometers.estimated_diameter_max);
@@ -49,6 +55,7 @@ window.addEventListener('DOMContentLoaded', function() {
         } 
 
         //append to DOM
+        neoHazard.textContent = countHazard; 
         neoBiggest.textContent = `${Number(biggest[0].toFixed(2)).toLocaleString()} - ${Number(biggest[1].toFixed(2)).toLocaleString()} ${metric}`;
         neoFastest.textContent = `${Number(fastest.toFixed(2)).toLocaleString()}km/h`;
         neoClosest.textContent = `${Number(closest.toFixed(2)).toLocaleString()}km away from Earth`;  
