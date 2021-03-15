@@ -1,5 +1,51 @@
 window.addEventListener('DOMContentLoaded', function() {
     const dateSpan = document.getElementById('date');
+    const neoTotal = document.getElementById('neo-total');
+    const neoHazard = document.getElementById('neo-hazard');
+    const neoBiggest = document.getElementById('neo-biggest');
+    const neoFastest = document.getElementById('neo-fastest');
+    const neoClosest = document.getElementById('neo-closest'); 
+
+    const appendData = (json) => {
+        console.log(json); 
+        neoTotal.textContent = json.amount;
+        formatData(json.asteroids);
+    }
+
+    const formatData = (arr) => {
+        let biggest = [], fastest = 0, closest = 0; 
+
+        arr.forEach(neo => {
+            //save the biggest one
+            if(neo.diameter.kilometers.estimated_diameter_min > biggest) {
+                biggest[0] = neo.diameter.kilometers.estimated_diameter_min;
+                biggest[1] = neo.diameter.kilometers.estimated_diameter_max;
+            }
+            //save the fastest one
+            if(neo.approach[0].relative_velocity.kilometers_per_hour > fastest) {
+                fastest = neo.approach[0].relative_velocity.kilometers_per_hour;
+            }
+            //save the closest one
+            if(neo.approach[0].miss_distance.kilometers > closest) {
+                closest = neo.approach[0].miss_distance.kilometers;
+            }
+        }); 
+
+        //if diameter smaller than a kilometer => convert to meters.
+        let metric = 'kilometers';
+        if(biggest[0] < 1) {
+            biggest[0] *= 1000;
+            metric = 'meters';
+        } 
+
+        if(biggest[1] < 1) {
+            biggest[1] *= 1000;
+        } 
+        neoBiggest.textContent = `${biggest[0].toFixed(2)} - ${biggest[0].toFixed(2)} ${metric}`;
+        neoFastest.textContent = `${parseInt(fastest).toFixed(2)}/km/h`;
+        neoClosest.textContent = `${parseInt(closest).toFixed(2)}km away from Earth`; 
+        
+    }
 
     //create date based on milliseconds
     const createDate = (timestamp) => {
@@ -15,7 +61,7 @@ window.addEventListener('DOMContentLoaded', function() {
         //call API with specified query
         fetch('/api/' + query)
             .then(response => response.json())
-            .then(data => console.log(data));
+            .then(data => appendData(data));
 
         //append date to DOM
         dateSpan.textContent = query;
