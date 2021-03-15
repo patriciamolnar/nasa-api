@@ -9,25 +9,34 @@ window.addEventListener('DOMContentLoaded', function() {
     const appendData = (json) => {
         console.log(json); 
         neoTotal.textContent = json.amount;
-        formatData(json.asteroids);
+        filterSize(json.asteroids);
     }
 
-    const formatData = (arr) => {
-        let biggest = [], fastest = 0, closest = 0; 
+    const filterSize = (arr) => {
+        let biggest = [0, 0], fastest = 0, closest = 0; 
+        let nameBiggest = '', nameFastest = '', nameClosest = '';
 
         arr.forEach(neo => {
-            //save the biggest one
-            if(neo.diameter.kilometers.estimated_diameter_min > biggest) {
-                biggest[0] = neo.diameter.kilometers.estimated_diameter_min;
-                biggest[1] = neo.diameter.kilometers.estimated_diameter_max;
+            //save biggest NEO
+            const diameterMin = parseFloat(neo.diameter.kilometers.estimated_diameter_min);
+            const diameterMax = parseFloat(neo.diameter.kilometers.estimated_diameter_max);
+            
+            if(diameterMin > biggest[0]) {
+                biggest[0] = diameterMin;
+                biggest[1] = diameterMax;
+                nameBiggest = neo.name;
             }
-            //save the fastest one
-            if(neo.approach[0].relative_velocity.kilometers_per_hour > fastest) {
-                fastest = neo.approach[0].relative_velocity.kilometers_per_hour;
+            //save fastest NEO
+            const kmh = parseFloat(neo.approach[0].relative_velocity.kilometers_per_hour)
+            if(kmh > fastest) {
+                fastest = kmh;
+                nameFastest = neo.name;
             }
-            //save the closest one
-            if(neo.approach[0].miss_distance.kilometers > closest) {
-                closest = neo.approach[0].miss_distance.kilometers;
+            //save closest NEO
+            const distance = parseFloat(neo.approach[0].miss_distance.kilometers);
+            if(distance > closest) {
+                closest = distance;
+                nameClosest = neo.name;
             }
         }); 
 
@@ -35,16 +44,14 @@ window.addEventListener('DOMContentLoaded', function() {
         let metric = 'kilometers';
         if(biggest[0] < 1) {
             biggest[0] *= 1000;
+            biggest[1] *= 1000;
             metric = 'meters';
         } 
 
-        if(biggest[1] < 1) {
-            biggest[1] *= 1000;
-        } 
-        neoBiggest.textContent = `${biggest[0].toFixed(2)} - ${biggest[0].toFixed(2)} ${metric}`;
-        neoFastest.textContent = `${parseInt(fastest).toFixed(2)}/km/h`;
-        neoClosest.textContent = `${parseInt(closest).toFixed(2)}km away from Earth`; 
-        
+        //append to DOM
+        neoBiggest.textContent = `${Number(biggest[0].toFixed(2)).toLocaleString()} - ${Number(biggest[1].toFixed(2)).toLocaleString()} ${metric}`;
+        neoFastest.textContent = `${Number(fastest.toFixed(2)).toLocaleString()}km/h`;
+        neoClosest.textContent = `${Number(closest.toFixed(2)).toLocaleString()}km away from Earth`;  
     }
 
     //create date based on milliseconds
