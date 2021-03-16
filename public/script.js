@@ -81,16 +81,9 @@ window.addEventListener('DOMContentLoaded', function() {
         dateSpan.textContent = query;
     }
 
-    //query API with timestamp
-    const fetchApiTimestamp = (timestamp) => {
-        //create the date query string
-        const query = createDate(timestamp);
-        fetchApi(query);
-    }
-
     // when page loads query database with today's date. 
-    let timestamp = Date.now();
-    fetchApiTimestamp(timestamp);
+    let today = createDate(Date.now());
+    fetchApi(today);
 
     //variable to keep track of how many days we are away from today.
     let num = 0; 
@@ -99,14 +92,14 @@ window.addEventListener('DOMContentLoaded', function() {
     const next = document.getElementById('next'); 
     next.addEventListener('click', () => {
         ++num;
-        fetchApiTimestamp(Date.now() + 8.64e+7 * num); 
+        fetchApi(createDate(Date.now() + 8.64e+7 * num)); 
     });
 
     //load previous day
     const prev = document.getElementById('prev'); 
     prev.addEventListener('click', () => {
         --num;
-        fetchApiTimestamp(Date.now() + 8.64e+7 * num);
+        fetchApi(createDate(Date.now() + 8.64e+7 * num));
     });
 
      
