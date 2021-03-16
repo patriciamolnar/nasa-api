@@ -83,3 +83,8 @@ button:hover {
     color: var(--hover); 
     border-color: var(--hover);
 }
+
+
+label {
+    display: none;
+}
