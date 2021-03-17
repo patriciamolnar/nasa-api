@@ -17,30 +17,48 @@ window.addEventListener('DOMContentLoaded', function() {
         return num.toFixed(2);
     }
 
-    //format number
+    //format number with komas
     const n = (num) => {
         return Number(num).toLocaleString();
+    }
+
+    const getMetric = (str) => {
+        if(str === 'km') {
+            return 'kilometers';
+        } else {
+            return 'miles';
+        }
+    }
+
+    //create dynamic props based on users selection
+    const getProps = (metric, metricFull) => {
+        const object = {
+            velocity: [
+                `${metricFull}_per_hour`, 
+                `${metricFull}_per_second`
+            ], 
+            size: `diameter_${metric}`
+        }
+        return object;
     }
 
     const appendData = (json, metric) => {
         console.log(json); 
         neoTotal.textContent = json.amount;
 
-        //appent biggest/fastest/closest data
-        if(metric === 'km') {
-            filterSizeKm(json.asteroids);
-        } else {
-            filterSizeM(json.asteroids);
-        }
+        filterSize(json.asteroids, metric);
         
         list.textContent = ''; 
         listAsteroids(json.asteroids, metric);
     }
 
-    const filterSizeKm = (arr) => {
+    const filterSize = (arr, metric) => {
+        const metricFull = getMetric(metric);
+        const props = getProps(metric, metricFull);
+
         let countHazard = 0; 
         let biggest = [0, 0], fastest = 0, closest = 0; 
-        let nameBiggest = '', nameFastest = '', nameClosest = '';
+        let nameBiggest = '', nameFastest = '', nameClosest = ''; 
 
         arr.forEach(neo => {
             //count hazardous NEOs
@@ -49,8 +67,8 @@ window.addEventListener('DOMContentLoaded', function() {
             }
 
             //save biggest NEO
-            const diameterMin = p(neo.diameter_km.estimated_diameter_min);
-            const diameterMax = p(neo.diameter_km.estimated_diameter_max);
+            const diameterMin = p(neo[props.size].estimated_diameter_min);
+            const diameterMax = p(neo[props.size].estimated_diameter_max);
             
             if(diameterMin > biggest[0]) {
                 biggest[0] = diameterMin;
@@ -58,75 +76,30 @@ window.addEventListener('DOMContentLoaded', function() {
                 nameBiggest = neo.name;
             }
             //save fastest NEO
-            const kmh = p(neo.velocity.kilometers_per_hour)
-            if(kmh > fastest) {
-                fastest = kmh;
-                nameFastest = neo.name;
-            }
-            //save closest NEO
-            const distance = p(neo.miss_distance.kilometers);
-            if(distance > closest) {
-                closest = distance;
-                nameClosest = neo.name;
-            }
-        }); 
-
-        //if diameter smaller than a kilometer => convert to meters.
-        let txt = 'kilometers';
-        if(biggest[0] < 1) {
-            biggest[0] *= 1000;
-            biggest[1] *= 1000;
-            txt = 'meters';
-        } 
-
-        //append to DOM
-        neoHazard.textContent = countHazard; 
-        neoBiggest.textContent = `Min Diameter: ${n(f(biggest[0]))}${txt},
-        Max Diameter: ${n(biggest[1])}${txt}`;
-        neoFastest.textContent = `${n(f(fastest))}km/h`;
-        neoClosest.textContent = `${n(f(closest))}km away from Earth`;  
-    }
-
-    //get information in miles 
-    const filterSizeM = (arr) => {
-        let countHazard = 0; 
-        let biggest = [0, 0], fastest = 0, closest = 0; 
-        let nameBiggest = '', nameFastest = '', nameClosest = '';
-
-        arr.forEach(neo => {
-            //count hazardous NEOs
-            if(neo.hazard == true) {
-                ++countHazard;
-            }
-
-            //save biggest NEO
-            const diameterMin = p(neo.diameter_m.estimated_diameter_min);
-            const diameterMax = p(neo.diameter_m.estimated_diameter_max);
-            
-            if(diameterMin > biggest[0]) {
-                biggest[0] = diameterMin;
-                biggest[1] = diameterMax;
-                nameBiggest = neo.name;
-            }
-            //save fastest NEO
-            const velocity = p(neo.velocity.miles_per_hour)
+            const velocity = p(neo.velocity[props.velocity[0]]);
             if(velocity > fastest) {
                 fastest = velocity;
                 nameFastest = neo.name;
             }
             //save closest NEO
-            const distance = p(neo.miss_distance.miles);
+            const distance = p(neo.miss_distance[metricFull]);
             if(distance > closest) {
                 closest = distance;
                 nameClosest = neo.name;
             }
         }); 
 
-        //if diameter smaller than a kilometer => convert to meters.
-        let txt = 'miles';
-        if(biggest[0] < 1) {
-            biggest[0] *= 5280;
-            biggest[1] *= 5280;
+        //if diameter smaller than 1km/0.5m convert to smaller unit.
+        let txt = metricFull;
+        if(biggest[0] < 1 && metric === 'km') {
+            biggest[0] *= 1000;
+            biggest[1] *= 1000;
+            txt = 'meters';
+        } 
+
+        if(biggest[0] < 0.5 && metric === 'm') {
+            biggest[0] *= 2640;
+            biggest[1] *= 2640;
             txt = 'feet';
         } 
 
@@ -134,18 +107,15 @@ window.addEventListener('DOMContentLoaded', function() {
         neoHazard.textContent = countHazard; 
         neoBiggest.textContent = `Min Diameter: ${n(f(biggest[0]))}${txt},
         Max Diameter: ${n(biggest[1])}${txt}`;
-        neoFastest.textContent = `${n(f(fastest))}m/h`;
-        neoClosest.textContent = `${n(f(closest))}m away from Earth`; 
+        neoFastest.textContent = `${n(f(fastest))}${metric}/h`;
+        neoClosest.textContent = `${n(f(closest))}${metric} away from Earth`;  
     }
+
 
     //list all NEOs
     const listAsteroids = (arr, metric) => {
-        let metricFull; 
-        if(metric === 'km') {
-            metricFull = 'kilometers';
-        } else {
-            metricFull = 'miles';
-        }
+        let metricFull = getMetric(metric); 
+        const props = getProps(metric, metricFull);
 
         arr.forEach(neo => {
             const listItem = document.createElement('div');
@@ -172,30 +142,23 @@ window.addEventListener('DOMContentLoaded', function() {
 
             //relative velocity
             const velocity = document.createElement('p');
+            const velocityHour = n(f(p(neo.velocity[props.velocity[0]])));
+            let velocitySecond = n(f(p(neo.velocity[props.velocity[1]])));
 
-            // this will not work with miles => solve it
-            const velocityProp = [
-                `${metricFull}_per_hour`, 
-                `${metricFull}_per_second`
-            ]
-
-            // generate miles per second
+            //generate miles per second
             if(metric !== 'km') {
-                velocityProp[1] = velocityProp[0]/3600;
+                velocitySecond = n(f(p(neo.velocity[props.velocity[0]])/3600));
             }
 
             velocity.textContent = `
-            Relative Velocity: ${n(f(p(neo.velocity[velocityProp[0]])))}${metric}/h - 
-            That is: ${n(f(p(neo.velocity[velocityProp[1]])))}${metric}/s`; 
+            Relative Velocity: ${velocityHour}${metric}/h - 
+            That is: ${velocitySecond}${metric}/s`; 
 
             //size 
             const size = document.createElement('p');
-            sizeProp = [
-                `diameter_${metric}`,
-                `diameter_${metric}`
-            ]
-            const min = p(neo[sizeProp[0]].estimated_diameter_min);
-            const max = p(neo[sizeProp[1]].estimated_diameter_max);
+
+            const min = p(neo[props.size].estimated_diameter_min);
+            const max = p(neo[props.size].estimated_diameter_max);
             size.textContent = `
             Min Diameter: ${n(f(min))}${metric} 
             - Max Diameter: ${n(f(max))}${metric}`;
@@ -221,7 +184,6 @@ window.addEventListener('DOMContentLoaded', function() {
 
     //query API directly with date string
     const fetchApi = (query, metric) => {
-        //call API with specified query
         fetch('/api/' + query)
             .then(response => response.json())
             .then(data => appendData(data, metric));
@@ -250,7 +212,7 @@ window.addEventListener('DOMContentLoaded', function() {
     });
 
      
-    //move focus automatically to next element
+    //input fields: move focus automatically to next element
     const focusNextEle = (ele) => {
         ele.nextElementSibling.focus(); 
     }
