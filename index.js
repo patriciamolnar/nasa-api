@@ -14,9 +14,11 @@ const formatData = (data) => {
             name: item.name, 
             jpl_url: item.nasa_jpl_url, 
             abs_magnitude: item.absolute_magnitude_h,
-            diameter: item.estimated_diameter, 
+            miss_distance: item.close_approach_data[0].miss_distance, 
+            velocity: item.close_approach_data[0].relative_velocity,
+            diameter_km: item.estimated_diameter.kilometers, 
+            diameter_m: item.estimated_diameter.miles, 
             hazard: item.is_potentially_hazardous_asteroid,
-            approach: item.close_approach_data
         }
         return obj;
     })
