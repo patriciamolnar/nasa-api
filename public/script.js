@@ -5,17 +5,21 @@ window.addEventListener('DOMContentLoaded', function() {
     const neoBiggest = document.getElementById('neo-biggest');
     const neoFastest = document.getElementById('neo-fastest');
     const neoClosest = document.getElementById('neo-closest'); 
+    const list = document.getElementById('list');
 
     const appendData = (json, metric) => {
         console.log(json); 
         neoTotal.textContent = json.amount;
 
+        //appent biggest/fastest/closest data
         if(metric === 'km') {
             filterSizeKm(json.asteroids);
         } else {
             filterSizeM(json.asteroids);
         }
         
+        //list all asteroids  
+        listAsteroidsKm(json.asteroids);
     }
 
     const filterSizeKm = (arr) => {
@@ -115,6 +119,51 @@ window.addEventListener('DOMContentLoaded', function() {
         neoBiggest.textContent = `${Number(biggest[0].toFixed(2)).toLocaleString()} - ${Number(biggest[1].toFixed(2)).toLocaleString()} ${txt}`;
         neoFastest.textContent = `${Number(fastest.toFixed(2)).toLocaleString()}m/h`;
         neoClosest.textContent = `${Number(closest.toFixed(2)).toLocaleString()}m away from Earth`;  
+    }
+
+    const listAsteroidsKm = (arr) => {
+        arr.forEach(neo => {
+            const listItem = document.createElement('div');
+            listItem.classList.add('list-item');
+            //name as link to documentation
+            const name = document.createElement('a'); 
+            name.setAttribute('href', neo.jpl_url);
+            name.setAttribute('target', '_blank');
+            name.textContent = neo.name;
+
+            //hazard
+            const hazard = document.createElement('p');
+            let text;
+            if(neo.hazard) {
+                text = 'Yes';
+            } else {
+                text = 'No';
+            }
+            hazard.textContent = `Potentially hazardous: ${text}`;
+
+            //miss distance 
+            const miss = document.createElement('p');
+            miss.textContent = `Missed Earth By: ${Number(neo.approach[0].miss_distance.kilometers).toLocaleString()}km`;
+
+            //relative velocity
+            const velocity = document.createElement('p');
+            velocity.textContent = `Relative Velocity: ${Number(neo.approach[0].relative_velocity.kilometers_per_hour).toLocaleString()}km/h
+            That is: ${Number(neo.approach[0].relative_velocity.kilometers_per_second).toLocaleString()}km/s`; 
+
+            //size 
+            const size = document.createElement('p');
+            const min = parseFloat(neo.diameter.kilometers.estimated_diameter_min);
+            const max = parseFloat(neo.diameter.kilometers.estimated_diameter_max);
+            size.textContent = `Diameter: ${min} - ${max} km`;
+
+            //absolute magnitude
+            const absMagn = document.createElement('p');
+            absMagn.textContent = `Absolute Magnitude (H): ${neo.abs_magnitude}`;
+
+            //append neo details to DOM
+            listItem.append(name, hazard, miss, velocity, size,absMagn);
+            list.appendChild(listItem);
+        });         
     }
 
     //create date based on milliseconds
