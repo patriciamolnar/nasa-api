@@ -7,6 +7,21 @@ window.addEventListener('DOMContentLoaded', function() {
     const neoClosest = document.getElementById('neo-closest'); 
     const list = document.getElementById('list');
 
+    //convert string to float
+    const p = (str) => {
+        return parseFloat(str);
+    }
+
+    //round number to 2 decimal places
+    const f = (num) => {
+        return num.toFixed(2);
+    }
+
+    //format number
+    const n = (num) => {
+        return Number(num).toLocaleString();
+    }
+
     const appendData = (json, metric) => {
         console.log(json); 
         neoTotal.textContent = json.amount;
@@ -18,8 +33,8 @@ window.addEventListener('DOMContentLoaded', function() {
             filterSizeM(json.asteroids);
         }
         
-        //list all asteroids  
-        listAsteroidsKm(json.asteroids);
+        list.textContent = ''; 
+        listAsteroids(json.asteroids, metric);
     }
 
     const filterSizeKm = (arr) => {
@@ -34,8 +49,8 @@ window.addEventListener('DOMContentLoaded', function() {
             }
 
             //save biggest NEO
-            const diameterMin = parseFloat(neo.diameter.kilometers.estimated_diameter_min);
-            const diameterMax = parseFloat(neo.diameter.kilometers.estimated_diameter_max);
+            const diameterMin = p(neo.diameter_km.estimated_diameter_min);
+            const diameterMax = p(neo.diameter_km.estimated_diameter_max);
             
             if(diameterMin > biggest[0]) {
                 biggest[0] = diameterMin;
@@ -43,13 +58,13 @@ window.addEventListener('DOMContentLoaded', function() {
                 nameBiggest = neo.name;
             }
             //save fastest NEO
-            const kmh = parseFloat(neo.approach[0].relative_velocity.kilometers_per_hour)
+            const kmh = p(neo.velocity.kilometers_per_hour)
             if(kmh > fastest) {
                 fastest = kmh;
                 nameFastest = neo.name;
             }
             //save closest NEO
-            const distance = parseFloat(neo.approach[0].miss_distance.kilometers);
+            const distance = p(neo.miss_distance.kilometers);
             if(distance > closest) {
                 closest = distance;
                 nameClosest = neo.name;
@@ -66,9 +81,10 @@ window.addEventListener('DOMContentLoaded', function() {
 
         //append to DOM
         neoHazard.textContent = countHazard; 
-        neoBiggest.textContent = `${Number(biggest[0].toFixed(2)).toLocaleString()} - ${Number(biggest[1].toFixed(2)).toLocaleString()} ${txt}`;
-        neoFastest.textContent = `${Number(fastest.toFixed(2)).toLocaleString()}km/h`;
-        neoClosest.textContent = `${Number(closest.toFixed(2)).toLocaleString()}km away from Earth`;  
+        neoBiggest.textContent = `Min Diameter: ${n(f(biggest[0]))}${txt},
+        Max Diameter: ${n(biggest[1])}${txt}`;
+        neoFastest.textContent = `${n(f(fastest))}km/h`;
+        neoClosest.textContent = `${n(f(closest))}km away from Earth`;  
     }
 
     //get information in miles 
@@ -84,8 +100,8 @@ window.addEventListener('DOMContentLoaded', function() {
             }
 
             //save biggest NEO
-            const diameterMin = parseFloat(neo.diameter.miles.estimated_diameter_min);
-            const diameterMax = parseFloat(neo.diameter.miles.estimated_diameter_max);
+            const diameterMin = p(neo.diameter_m.estimated_diameter_min);
+            const diameterMax = p(neo.diameter_m.estimated_diameter_max);
             
             if(diameterMin > biggest[0]) {
                 biggest[0] = diameterMin;
@@ -93,13 +109,13 @@ window.addEventListener('DOMContentLoaded', function() {
                 nameBiggest = neo.name;
             }
             //save fastest NEO
-            const velocity = parseFloat(neo.approach[0].relative_velocity.miles_per_hour)
+            const velocity = p(neo.velocity.miles_per_hour)
             if(velocity > fastest) {
                 fastest = velocity;
                 nameFastest = neo.name;
             }
             //save closest NEO
-            const distance = parseFloat(neo.approach[0].miss_distance.miles);
+            const distance = p(neo.miss_distance.miles);
             if(distance > closest) {
                 closest = distance;
                 nameClosest = neo.name;
@@ -116,12 +132,21 @@ window.addEventListener('DOMContentLoaded', function() {
 
         //append to DOM
         neoHazard.textContent = countHazard; 
-        neoBiggest.textContent = `${Number(biggest[0].toFixed(2)).toLocaleString()} - ${Number(biggest[1].toFixed(2)).toLocaleString()} ${txt}`;
-        neoFastest.textContent = `${Number(fastest.toFixed(2)).toLocaleString()}m/h`;
-        neoClosest.textContent = `${Number(closest.toFixed(2)).toLocaleString()}m away from Earth`;  
+        neoBiggest.textContent = `Min Diameter: ${n(f(biggest[0]))}${txt},
+        Max Diameter: ${n(biggest[1])}${txt}`;
+        neoFastest.textContent = `${n(f(fastest))}m/h`;
+        neoClosest.textContent = `${n(f(closest))}m away from Earth`; 
     }
 
-    const listAsteroidsKm = (arr) => {
+    //list all NEOs
+    const listAsteroids = (arr, metric) => {
+        let metricFull; 
+        if(metric === 'km') {
+            metricFull = 'kilometers';
+        } else {
+            metricFull = 'miles';
+        }
+
         arr.forEach(neo => {
             const listItem = document.createElement('div');
             listItem.classList.add('list-item');
@@ -143,22 +168,41 @@ window.addEventListener('DOMContentLoaded', function() {
 
             //miss distance 
             const miss = document.createElement('p');
-            miss.textContent = `Missed Earth By: ${Number(neo.approach[0].miss_distance.kilometers).toLocaleString()}km`;
+            miss.textContent = `Missed Earth By: ${n(f(p(neo.miss_distance[metricFull])))}${metric}`;
 
             //relative velocity
             const velocity = document.createElement('p');
-            velocity.textContent = `Relative Velocity: ${Number(neo.approach[0].relative_velocity.kilometers_per_hour).toLocaleString()}km/h
-            That is: ${Number(neo.approach[0].relative_velocity.kilometers_per_second).toLocaleString()}km/s`; 
+
+            // this will not work with miles => solve it
+            const velocityProp = [
+                `${metricFull}_per_hour`, 
+                `${metricFull}_per_second`
+            ]
+
+            // generate miles per second
+            if(metric !== 'km') {
+                velocityProp[1] = velocityProp[0]/3600;
+            }
+
+            velocity.textContent = `
+            Relative Velocity: ${n(f(p(neo.velocity[velocityProp[0]])))}${metric}/h - 
+            That is: ${n(f(p(neo.velocity[velocityProp[1]])))}${metric}/s`; 
 
             //size 
             const size = document.createElement('p');
-            const min = parseFloat(neo.diameter.kilometers.estimated_diameter_min);
-            const max = parseFloat(neo.diameter.kilometers.estimated_diameter_max);
-            size.textContent = `Diameter: ${min} - ${max} km`;
+            sizeProp = [
+                `diameter_${metric}`,
+                `diameter_${metric}`
+            ]
+            const min = p(neo[sizeProp[0]].estimated_diameter_min);
+            const max = p(neo[sizeProp[1]].estimated_diameter_max);
+            size.textContent = `
+            Min Diameter: ${n(f(min))}${metric} 
+            - Max Diameter: ${n(f(max))}${metric}`;
 
             //absolute magnitude
             const absMagn = document.createElement('p');
-            absMagn.textContent = `Absolute Magnitude (H): ${neo.abs_magnitude}`;
+            absMagn.textContent = `Absolute Magnitude (H): ${n(f(p(neo.abs_magnitude)))}`;
 
             //append neo details to DOM
             listItem.append(name, hazard, miss, velocity, size,absMagn);
