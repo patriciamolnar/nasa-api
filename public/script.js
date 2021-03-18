@@ -2,9 +2,9 @@ window.addEventListener('DOMContentLoaded', function() {
     const dateSpan = document.getElementById('date');
     const neoTotal = document.getElementById('neo-total');
     const neoHazard = document.getElementById('neo-hazard');
-    const neoBiggest = document.getElementById('neo-biggest');
-    const neoFastest = document.getElementById('neo-fastest');
-    const neoClosest = document.getElementById('neo-closest'); 
+    const neoBiggest = document.querySelectorAll('.neo-biggest');
+    const neoFastest = document.querySelectorAll('.neo-fastest');
+    const neoClosest = document.querySelectorAll('.neo-closest'); 
     const list = document.getElementById('list');
 
     //convert string to float
@@ -42,6 +42,15 @@ window.addEventListener('DOMContentLoaded', function() {
         return object;
     }
 
+    //create link of NEO name and JPL documentation
+    const createLink = arr => {
+        const link = document.createElement('a'); 
+        link.setAttribute('href', arr[1]); 
+        link.setAttribute('target', '_blank');
+        link.textContent = arr[0];
+        return link;
+    }
+
     const appendData = (json, metric) => {
         console.log(json); 
         neoTotal.textContent = json.amount;
@@ -58,7 +67,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
         let countHazard = 0; 
         let biggest = [0, 0], fastest = 0, closest = 0; 
-        let nameBiggest = '', nameFastest = '', nameClosest = ''; 
+        let nameBiggest = [], nameFastest = [], nameClosest = []; 
 
         arr.forEach(neo => {
             //count hazardous NEOs
@@ -73,19 +82,22 @@ window.addEventListener('DOMContentLoaded', function() {
             if(diameterMin > biggest[0]) {
                 biggest[0] = diameterMin;
                 biggest[1] = diameterMax;
-                nameBiggest = neo.name;
+                nameBiggest[0] = neo.name;
+                nameBiggest[1] = neo.jpl_url;
             }
             //save fastest NEO
             const velocity = p(neo.velocity[props.velocity[0]]);
             if(velocity > fastest) {
                 fastest = velocity;
-                nameFastest = neo.name;
+                nameFastest[0] = neo.name;
+                nameFastest[1] = neo.jpl_url;
             }
             //save closest NEO
             const distance = p(neo.miss_distance[metricFull]);
             if(distance > closest) {
                 closest = distance;
-                nameClosest = neo.name;
+                nameClosest[0] = neo.name;
+                nameClosest[1] = neo.jpl_url;
             }
         }); 
 
@@ -104,11 +116,19 @@ window.addEventListener('DOMContentLoaded', function() {
         } 
 
         //append to DOM
+        //num of hazardous NEO
         neoHazard.textContent = countHazard; 
-        neoBiggest.textContent = `Min Diameter: ${n(f(biggest[0]))}${txt},
+        //biggest NEO
+        neoBiggest[0].append(createLink(nameBiggest));
+        neoBiggest[1].innerHTML = `Min Diameter: ${n(f(biggest[0]))}${txt} <br/>
         Max Diameter: ${n(biggest[1])}${txt}`;
-        neoFastest.textContent = `${n(f(fastest))}${metric}/h`;
-        neoClosest.textContent = `${n(f(closest))}${metric} away from Earth`;  
+        //fastest NEO
+        neoFastest[0].append(createLink(nameFastest));
+        neoFastest[1].textContent = `${n(f(fastest))}${metric}/h`;
+
+        //closest NEO
+        neoClosest[0].append(createLink(nameClosest));
+        neoClosest[1].textContent = `${n(f(closest))}${metric} away from Earth`;  
     }
 
 
@@ -121,10 +141,7 @@ window.addEventListener('DOMContentLoaded', function() {
             const listItem = document.createElement('div');
             listItem.classList.add('list-item');
             //name as link to documentation
-            const name = document.createElement('a'); 
-            name.setAttribute('href', neo.jpl_url);
-            name.setAttribute('target', '_blank');
-            name.textContent = neo.name;
+            const name = createLink([neo.name, neo.jpl_url]);
 
             //hazard
             const hazard = document.createElement('p');
@@ -141,7 +158,6 @@ window.addEventListener('DOMContentLoaded', function() {
             miss.textContent = `Missed Earth By: ${n(f(p(neo.miss_distance[metricFull])))}${metric}`;
 
             //relative velocity
-            const velocity = document.createElement('p');
             const velocityHour = n(f(p(neo.velocity[props.velocity[0]])));
             let velocitySecond = n(f(p(neo.velocity[props.velocity[1]])));
 
@@ -150,10 +166,11 @@ window.addEventListener('DOMContentLoaded', function() {
                 velocitySecond = n(f(p(neo.velocity[props.velocity[0]])/3600));
             }
 
+            const velocity = document.createElement('p');
             velocity.textContent = `
             Relative Velocity: ${velocityHour}${metric}/h - 
             That is: ${velocitySecond}${metric}/s`; 
-
+           
             //size 
             const size = document.createElement('p');
 
