@@ -122,15 +122,29 @@ window.addEventListener('DOMContentLoaded', function() {
         //append to DOM
         //num of hazardous NEO
         neoHazard.textContent = countHazard; 
+
         //biggest NEO
+        const childBiggest = neoBiggest[0].firstElementChild; 
+        if(childBiggest !== null) {
+            childBiggest.remove();
+        } 
         neoBiggest[0].append(createLink(nameBiggest));
         neoBiggest[1].innerHTML = `Min Diameter: ${n(f(biggest[0]))}${txt} <br/>
         Max Diameter: ${n(biggest[1])}${txt}`;
+
         //fastest NEO
+        const childFastest = neoFastest[0].firstElementChild; 
+        if(childFastest !== null) {
+            childFastest.remove();
+        } 
         neoFastest[0].append(createLink(nameFastest));
         neoFastest[1].textContent = `${n(f(fastest))}${metric}/h`;
 
         //closest NEO
+        const childClosest = neoClosest[0].firstElementChild; 
+        if(childClosest !== null) {
+            childClosest.remove();
+        } 
         neoClosest[0].append(createLink(nameClosest));
         neoClosest[1].textContent = `${n(f(closest))}${metric} away from Earth`;  
     }
