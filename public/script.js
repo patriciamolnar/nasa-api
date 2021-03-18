@@ -217,7 +217,13 @@ window.addEventListener('DOMContentLoaded', function() {
     const createDate = (timestamp) => {
         const gmt = new Date(timestamp);
         const year = gmt.getFullYear();
-        const month = gmt.getMonth() + 1; 
+        
+        //ensuring that Jan - Sept are displayed as 01, 02, etc
+        let month = gmt.getMonth() + 1; 
+        if(month < 10) { 
+            month = '0' + month; 
+        }
+        
         const day = gmt.getDate();
         return `${year}-${month}-${day}`;
     }
