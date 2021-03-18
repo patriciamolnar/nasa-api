@@ -88,3 +88,11 @@ button:hover {
 label {
     display: none;
 }
+
+.hazard-yes {
+    color: red;
+}
+
+.hazard-no {
+    color: green;
+}

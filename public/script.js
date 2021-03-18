@@ -145,13 +145,18 @@ window.addEventListener('DOMContentLoaded', function() {
 
             //hazard
             const hazard = document.createElement('p');
+            const hazardState = document.createElement('span');
             let text;
             if(neo.hazard) {
                 text = 'Yes';
             } else {
                 text = 'No';
             }
-            hazard.textContent = `Potentially hazardous: ${text}`;
+            hazard.textContent = 'Potentially hazardous: ';
+            hazardState.textContent = text;
+            hazard.append(hazardState);
+            const className = `hazard-${text.toLowerCase()}`;
+            hazardState.classList.add(className); 
 
             //miss distance 
             const miss = document.createElement('p');
