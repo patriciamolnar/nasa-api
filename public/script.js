@@ -6,6 +6,8 @@ window.addEventListener('DOMContentLoaded', function() {
     const neoFastest = document.querySelectorAll('.neo-fastest');
     const neoClosest = document.querySelectorAll('.neo-closest'); 
     const list = document.getElementById('list');
+    const loading = document.getElementById('loading');
+    const main = document.querySelector('main');
 
     //convert string to float
     const p = (str) => {
@@ -52,6 +54,8 @@ window.addEventListener('DOMContentLoaded', function() {
     }
 
     const appendData = (json, metric) => {
+        loading.style.display = 'none';
+        main.style.display = 'block';
         console.log(json); 
         neoTotal.textContent = json.amount;
 
@@ -206,6 +210,8 @@ window.addEventListener('DOMContentLoaded', function() {
 
     //query API directly with date string
     const fetchApi = (query, metric) => {
+        loading.style.display = 'block';
+        main.style.display = 'none'; 
         fetch('/api/' + query)
             .then(response => response.json())
             .then(data => appendData(data, metric));
