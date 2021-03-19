@@ -139,3 +139,7 @@ label {
         transform: scale(1.05, 0.95);
     }
 }
+
+#apod img {
+    width: 100%; 
+}

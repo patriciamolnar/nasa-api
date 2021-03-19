@@ -21,7 +21,7 @@ const formatData = (data) => {
             hazard: item.is_potentially_hazardous_asteroid,
         }
         return obj;
-    })
+    });
 
     const result = {
         amount: data.element_count,
@@ -44,6 +44,14 @@ app.get('/api/:date', (req, res) => {
       .then(data => res.json(data)); 
 });
 
+
+app.get('/apod', (req, res) => {
+    const api_key = process.env.API_KEY;
+    const url = `https://api.nasa.gov/planetary/apod?api_key=${api_key}`;
+    fetch(url)
+      .then(res => res.json())
+      .then(data => res.send(data));
+})
 
 
 

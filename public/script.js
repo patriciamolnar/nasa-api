@@ -1,4 +1,5 @@
 window.addEventListener('DOMContentLoaded', function() {
+//PART 1: NEOs
     const dateSpan = document.getElementById('date');
     const neoTotal = document.getElementById('neo-total');
     const neoHazard = document.getElementById('neo-hazard');
@@ -295,4 +296,24 @@ window.addEventListener('DOMContentLoaded', function() {
         metric = metricSelect.value; 
         fetchApi(createDate(current), metric);
     });
+
+//Part 2: APOD  
+    //append apod image to site
+    const appendApod = (json) => {
+        const apod = document.getElementById('apod'); 
+        const img = document.createElement('img'); 
+        img.src = json.url;
+        img.alt = json.title;
+        img.title = json.title; 
+        const p = document.createElement('p'); 
+        p.textContent = json.explanation;
+        const link = createLink(['View HD image', json.hdurl]);
+
+        apod.append(img, p, link);
+    }
+
+    //get JSON info for apod 
+    fetch('/apod')
+      .then(response => response.json())
+      .then(data => appendApod(data));
 });
