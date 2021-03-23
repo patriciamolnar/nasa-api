@@ -30,14 +30,6 @@
         </div>
     </div>
 
-    <div>
-        <label for="metric">Select your preferred metric unit:</label>
-        <select name="metric" id="metric">
-            <option value="km">Kilometers</option>
-            <option value="m">Miles</option>
-        </select>
-    </div>
-
     <div id="loading">
         <div></div>
         <div></div>
@@ -45,7 +37,18 @@
         <p>Loading</p>
     </div>
 
+    <div id="error"></div>
+
+    </div>
     <main>
+        <div>
+            <label for="metric">Select your preferred metric unit:</label>
+            <select name="metric" id="metric">
+                <option value="km">Kilometers</option>
+                <option value="m">Miles</option>
+            </select>
+        </div>
+        
         <h2>Overview</h2>
         <div>
             <p>Number of Near Earth Objects (NEO): <span id="neo-total"></span></p>

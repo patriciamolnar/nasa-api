@@ -8,27 +8,31 @@ app.use(express.static('public'));
 app.use(express.json({ limit: '1mb' }));
 
 const formatData = (data) => {
-    const arr = data.near_earth_objects[Object.keys(data.near_earth_objects)[0]];
-    const asteroids = arr.map(item => {
-        const obj = {
-            name: item.name, 
-            jpl_url: item.nasa_jpl_url, 
-            abs_magnitude: item.absolute_magnitude_h,
-            miss_distance: item.close_approach_data[0].miss_distance, 
-            velocity: item.close_approach_data[0].relative_velocity,
-            diameter_km: item.estimated_diameter.kilometers, 
-            diameter_m: item.estimated_diameter.miles, 
-            hazard: item.is_potentially_hazardous_asteroid,
+    try {
+        const arr = data.near_earth_objects[Object.keys(data.near_earth_objects)[0]];
+        const asteroids = arr.map(item => {
+            const obj = {
+                name: item.name, 
+                jpl_url: item.nasa_jpl_url, 
+                abs_magnitude: item.absolute_magnitude_h,
+                miss_distance: item.close_approach_data[0].miss_distance, 
+                velocity: item.close_approach_data[0].relative_velocity,
+                diameter_km: item.estimated_diameter.kilometers, 
+                diameter_m: item.estimated_diameter.miles, 
+                hazard: item.is_potentially_hazardous_asteroid,
+            }
+            return obj;
+        });
+
+        const result = {
+            amount: data.element_count,
+            asteroids: asteroids 
         }
-        return obj;
-    });
-
-    const result = {
-        amount: data.element_count,
-        asteroids: asteroids 
-    }
-
     return result;
+    
+    } catch(error) {
+        return error; 
+    }
 }
 
 //route for post request

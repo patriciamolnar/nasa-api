@@ -9,6 +9,7 @@ window.addEventListener('DOMContentLoaded', function() {
     const list = document.getElementById('list');
     const loading = document.getElementById('loading');
     const main = document.querySelector('main');
+    const errorDiv = document.getElementById('error');
 
     //convert string to float
     const p = (str) => {
@@ -23,6 +24,11 @@ window.addEventListener('DOMContentLoaded', function() {
     //format number with komas
     const n = (num) => {
         return Number(num).toLocaleString();
+    }
+
+    const handleError = (msg) => {
+        errorDiv.style.display = 'block';
+        errorDiv.textContent = msg;
     }
 
     const getMetric = (str) => {
@@ -56,14 +62,19 @@ window.addEventListener('DOMContentLoaded', function() {
 
     const appendData = (json, metric) => {
         loading.style.display = 'none';
-        main.style.display = 'block';
-        console.log(json); 
-        neoTotal.textContent = json.amount;
+        errorDiv.style.display = 'none';
+        try {
+            console.log(json); 
+            neoTotal.textContent = json.amount;
 
-        filterSize(json.asteroids, metric);
-        
-        list.textContent = ''; 
-        listAsteroids(json.asteroids, metric);
+            filterSize(json.asteroids, metric);
+            
+            list.textContent = ''; 
+            listAsteroids(json.asteroids, metric);
+            main.style.display = 'block';
+        } catch(error) {
+            handleError('An error occured - please try again.');
+        }
     }
 
     const filterSize = (arr, metric) => {
@@ -235,7 +246,8 @@ window.addEventListener('DOMContentLoaded', function() {
         main.style.display = 'none'; 
         fetch('/api/' + query)
             .then(response => response.json())
-            .then(data => appendData(data, metric));
+            .then(data => appendData(data, metric))
+            .catch(error => console.log(error));
 
         //append date to DOM
         dateSpan.textContent = query;
@@ -279,15 +291,42 @@ window.addEventListener('DOMContentLoaded', function() {
     });
 
     //send specific date query to API
-    const year = document.getElementById('search-year');
-    const month = document.getElementById('search-month');
-    const day = document.getElementById('search-day');
+    const checkDate = (year, month, day) => {
+        const yearInt = parseInt(year);
+        if(Number.isNaN(yearInt) || yearInt.toString().length !== 4) {
+            handleError('Please provide valid year');
+            return false;
+        }
+
+        const monthInt = parseInt(month);
+        if(Number.isNaN(monthInt) || monthInt < 1 || monthInt > 12) {
+            handleError('Please provide valid month');
+            return false;
+        }
+
+        const dayInt = parseInt(day);
+        if(Number.isNaN(dayInt) || dayInt < 1 || dayInt > 31) {
+            handleError('Please provide valid date');
+            return false;
+        }
+
+        return true;   
+    }
+
+    const yearSearch = document.getElementById('search-year');
+    const monthSearch = document.getElementById('search-month');
+    const daySearch = document.getElementById('search-day');
 
     const searchBtn = document.getElementById('search-btn'); 
     searchBtn.addEventListener('click', function() {
-        let input = `${year.value}-${month.value}-${day.value}`;
-        current = new Date(year.value, month.value - 1, day.value).getTime();
-        fetchApi(input, metric);
+        let year = yearSearch.value; 
+        let month = monthSearch.value; 
+        let day = daySearch.value; 
+        if(checkDate(year, month, day)) {
+            let input = `${year}-${month}-${day}`;
+            current = new Date(year, month - 1, day).getTime();
+            fetchApi(input, metric);
+        }
     }); 
     
     //let user change the preferred metric unit 

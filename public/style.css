@@ -143,3 +143,11 @@ label {
 #apod img {
     width: 100%; 
 }
+
+#error {
+    display: none;
+    background-color: white; 
+    color: red; 
+    border: 2px solid red; 
+    padding: 0.5rem;
+}
