@@ -10,6 +10,7 @@ window.addEventListener('DOMContentLoaded', function() {
     const loading = document.getElementById('loading');
     const main = document.querySelector('main');
     const errorDiv = document.getElementById('error');
+    const apod = document.getElementById('apod');
 
     //convert string to float
     const p = (str) => {
@@ -367,16 +368,18 @@ window.addEventListener('DOMContentLoaded', function() {
 //Part 2: APOD  
     //append apod image to site
     const appendApod = (json) => {
-        const apod = document.getElementById('apod'); 
-        const img = document.createElement('img'); 
-        img.src = json.url;
-        img.alt = json.title;
-        img.title = json.title; 
-        const p = document.createElement('p'); 
-        p.textContent = json.explanation;
-        const link = createLink(['View HD image', json.hdurl]);
-
-        apod.append(img, p, link);
+        console.log(json);
+        if(json.error === undefined || json.url !== undefined) {
+            apod.style.display = 'block';
+            const img = document.createElement('img'); 
+            img.src = json.url;
+            img.alt = json.title;
+            img.title = json.title; 
+            const p = document.createElement('p'); 
+            p.textContent = json.explanation;
+            const link = createLink(['View HD image', json.hdurl]);
+            apod.append(img, p, link);
+        } 
     }
 
     //get JSON info for apod 

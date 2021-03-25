@@ -140,6 +140,10 @@ label {
     }
 }
 
+#apod {
+    display: none; 
+}
+
 #apod img {
     width: 100%; 
 }
