@@ -63,16 +63,19 @@ window.addEventListener('DOMContentLoaded', function() {
 
     const appendData = (json, metric) => {
         loading.style.display = 'none';
-        errorDiv.style.display = 'none';
         try {
             console.log(json); 
-            neoTotal.textContent = json.amount;
-
-            filterSize(json.asteroids, metric);
-            
-            list.textContent = ''; 
-            listAsteroids(json.asteroids, metric);
-            main.style.display = 'block';
+            if (json.amount === undefined) { //if no asteroids returned for date
+                errorDiv.style.display = 'block';
+                errorDiv.textContent = 'No asteroids spotted on the specified date.';
+            } else {
+                errorDiv.style.display = 'none';
+                neoTotal.textContent = json.amount;
+                filterSize(json.asteroids, metric);
+                list.textContent = ''; 
+                listAsteroids(json.asteroids, metric);
+                main.style.display = 'block';
+            }
         } catch(error) {
             handleError('An error occured - please try again.');
         }
