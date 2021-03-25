@@ -292,25 +292,53 @@ window.addEventListener('DOMContentLoaded', function() {
 
     //send specific date query to API
     const checkDate = (year, month, day) => {
-        const yearInt = parseInt(year);
-        if(Number.isNaN(yearInt) || yearInt.toString().length !== 4) {
-            handleError('Please provide valid year');
+        //check if entry can be converted into date
+        const date = new Date(year, month-1, day);         
+        if(date == 'Invalid Date') {
+            handleError('Please enter a valid date'); 
             return false;
         }
 
-        const monthInt = parseInt(month);
-        if(Number.isNaN(monthInt) || monthInt < 1 || monthInt > 12) {
-            handleError('Please provide valid month');
+        //ensure year contains 4 digits
+        if(year.length !== 4) {
+            handleError('Please enter a valid year'); 
             return false;
         }
 
-        const dayInt = parseInt(day);
-        if(Number.isNaN(dayInt) || dayInt < 1 || dayInt > 31) {
-            handleError('Please provide valid date');
+        //month should be within 1 - 12
+        if(month < 1 || month > 12) {
+            handleError('Please enter a valid month'); 
             return false;
         }
 
-        return true;   
+        //check day 
+        const m = parseInt(month);
+        //months with 31 days
+        if(m == 1 || m == 3 || m == 5 || m == 7 || m == 8 || m == 10 || m == 12) {
+            if(day < 1 || day > 31) {
+                handleError('Please enter a valid date'); 
+                return false;
+            }
+        } else if (m === 2) { //february
+            if(((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0)) {
+                if(day < 1 || day > 29) { //if leap year
+                    handleError('Please enter a valid date'); 
+                    return false;
+                }
+            } else { //if not leap year
+                if(day < 1 || day > 28) {
+                    handleError(`Please enter a valid date.`); 
+                    return false;
+                }
+            }
+        } else { //months with 30 days
+            if(day < 1 || day > 30) {
+                handleError('Please enter a valid date'); 
+                return false;
+            }
+        } 
+
+        return true; 
     }
 
     const yearSearch = document.getElementById('search-year');
