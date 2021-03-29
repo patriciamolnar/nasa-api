@@ -1,32 +1,99 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rock+Salt&family=Work+Sans:wght@400;900&display=swap');
 
 :root {
-    --font: 'Noto Sans', sans-serif;
-
-    --dark: #0d162b;
-    --intense: magenta;
-    --hover: blueviolet; 
+    --font: 'Work Sans', sans-serif;
+    --f2: 'Rock Salt', monospace;
+    --dark: #190f2d;
+    --primary: #99ff33;
+    --secondary: #9779d2; 
+    --focus:#ff33cc;
+    --error: #ff3333;
 }
 
 body {
     background-color: var(--dark); 
     font-family: var(--font);
     color: #fff;
+    line-height: 1.1;
+    font-size: calc(1em + 0.5vw);
 }
 
-/* No outlines on focus */
+.hero {
+    text-align: center;
+}
+
+.hero img {
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.hero p {
+    text-align: left;
+}
+
+h1 {
+    text-transform: uppercase;
+    color: var(--secondary);
+    text-shadow: 2px -2px var(--primary);
+    font-weight: 900;
+    font-size: calc(1em + 5vw);
+    letter-spacing: 1px;
+}
+
+h1 span {
+    font-size: calc(0.5em + 1.5vw);
+    display: block;
+    font-family: var(--f2);
+    color: #fff;
+    font-weight: normal;
+    text-transform: capitalize;
+    text-shadow: none;
+}
+
+h2 {
+    font-weight: 400;  
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--secondary);
+}
+
 .no-focus-outline a:focus,
 .no-focus-outline button:focus {
   outline: none;
   box-shadow: none; 
 }
 
-h1 {
-    text-align: center;
+/* Buttons and link */
+a {
+    color: var(--primary);
+    font-family: monospace;
+    text-decoration: none;
+    border-bottom: 1px solid var(--primary);
 }
 
+button {
+    font-family: monospace;
+    background-color: var(--primary);
+    border: none; 
+    padding: 0.5rem 1rem; 
+    border-radius: 5px; 
+    transition: background-color 0.2s linear; 
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* consistent padding */
+.hero, #navigation, main, .search, #apod, footer {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+#error {
+    margin-left: 1rem; 
+    margin-right: 1rem;
+}
+
+/* Navigation and Search */
 #navigation {
-    width: 100%; 
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -34,16 +101,13 @@ h1 {
     margin-bottom: 1rem;
 }
 
-#date {
-    font-size: 1.5rem;
-}
 
 .search {
-    text-align: right;
+    margin-bottom: 1.5rem; 
 }
 
 .search-form {
-    display: none; 
+    display: none;  
 }
 
 .search-form.appear {
@@ -51,59 +115,74 @@ h1 {
 }
 
 .search-form label {
-    display:none; 
+    display: none; 
 }
 .search-form input {
     height: 25px;
-}
-
-button {
-    background-color: var(--intense);
-    border: none; 
-    padding: 0.5rem 1rem; 
-    border-radius: 5px; 
-    transition: background-color 0.2s linear; 
-}
-
-button:hover {
-    background-color: var(--hover);
 }
 
 #show-search-btn {  
     padding: 0; 
     border-radius: 0; 
     background-color: transparent; 
-    border-bottom: 1px solid var(--intense); 
-    color: var(--intense);
+    border-bottom: 1px solid var(--primary); 
+    color: var(--primary);
     transition: all 0.2s linear;
     margin-bottom: 0.5rem;
+    text-transform: unset;
 }
 
-#show-search-btn:hover {
-    color: var(--hover); 
-    border-color: var(--hover);
-}
-
-
-label {
+.search label {
     display: none;
 }
 
+/* List */
+
+#metric {
+    margin-top: 5px;
+    width: 100%; 
+    height: 25px; 
+    font-family: var(--font);
+}
+
+.list-item-button {
+    padding: 0 5px 1px;
+    margin-right: 5px;
+}
+
+.list-item { 
+    margin-bottom: 0.5rem;
+}
+.list-item p {
+    display: none; 
+}
+
+.list-item.appear p {
+    display: block;
+}
+
 .hazard-yes {
-    color: red;
+    color: var(--error); 
+    font-weight: 800; 
+    letter-spacing: 1px; 
 }
 
 .hazard-no {
-    color: green;
+    color: #33cc33;
+    font-weight: 800;
+    letter-spacing: 1px;
 }
+
+/* Loading animation */
 
 #loading {
     margin-top: 2rem; 
 }
+
 #loading > div {
     width: 10px; 
     height: 10px; 
-    background-color: mediumseagreen;
+    background-color: var(--secondary);
     border-radius: 50%; 
     display: inline-block;
     margin: 5px;
@@ -150,8 +229,83 @@ label {
 
 #error {
     display: none;
-    background-color: white; 
-    color: red; 
-    border: 2px solid red; 
+    background-color: #fff; 
+    color: var(--error); 
+    border: 5px solid var(--error); 
     padding: 0.5rem;
+    font-weight: bold;
+}
+
+/* Footer */
+footer {
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--secondary);
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 1.1rem;
+}
+
+.footer-social { 
+    padding-top: 1rem;
+    display: flex; 
+    flex-direction: column;
+}
+
+.footer-social a {
+    border-bottom: none;
+    margin-bottom: 2px;
+}
+
+footer svg {
+    fill: var(--primary);
+}
+
+/* Focus */
+a:focus,
+#show-search-btn:focus {
+    color: var(--focus);
+    outline: 1px solid var(--focus);
+    outline-offset: 1px;
+    border-bottom: none;
+}
+
+button:focus {
+    background-color: var(--focus);
+    outline: none;
+}
+
+input:focus, 
+select:focus {
+    outline: 3px solid var(--focus);
+    outline-offset: -2px;
+}
+
+.footer-social a:focus {
+    outline: none;  
+}
+
+.footer-social a:focus svg {
+    fill: var(--focus);
+}
+
+/* Hover */
+@media not all and (hover: none) {
+    a:hover,
+    #show-search-btn:hover {
+        color: var(--secondary);
+        border-bottom: 1px solid var(--secondary);
+    }
+
+    button:hover {
+        background-color: var(--secondary);
+    }
+
+    footer a:hover svg {
+        fill: var(--secondary);
+    }
+
+    .footer-social a:hover {
+        border-bottom: none; 
+    }
 }

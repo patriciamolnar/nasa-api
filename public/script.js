@@ -61,13 +61,25 @@ window.addEventListener('DOMContentLoaded', function() {
         return link;
     }
 
+    const showHideListItem = (ele) => {
+        const parent = ele.parentElement;
+        if(parent.classList.contains('appear')) {
+            parent.classList.remove('appear');
+            ele.textContent = '+';
+        } else {
+            parent.classList.add('appear');
+            ele.textContent = '-';
+        }
+    }
+
+
     const appendData = (json, metric) => {
         loading.style.display = 'none';
         try {
             console.log(json); 
             if (json.amount === undefined) { //if no asteroids returned for date
                 errorDiv.style.display = 'block';
-                errorDiv.textContent = 'No asteroids spotted on the specified date.';
+                errorDiv.textContent = 'No NEOs spotted on the selected date.';
             } else {
                 errorDiv.style.display = 'none';
                 neoTotal.textContent = json.amount;
@@ -174,6 +186,11 @@ window.addEventListener('DOMContentLoaded', function() {
         arr.forEach(neo => {
             const listItem = document.createElement('div');
             listItem.classList.add('list-item');
+            //add button to show / hide more info
+            const btn = document.createElement('button');
+            btn.textContent = '+';
+            btn.classList.add('list-item-button');
+            btn.addEventListener('click', e => showHideListItem(e.target));
             //name as link to documentation
             const name = createLink([neo.name, neo.jpl_url]);
 
@@ -224,7 +241,7 @@ window.addEventListener('DOMContentLoaded', function() {
             absMagn.textContent = `Absolute Magnitude (H): ${n(f(p(neo.abs_magnitude)))}`;
 
             //append neo details to DOM
-            listItem.append(name, hazard, miss, velocity, size,absMagn);
+            listItem.append(btn, name, hazard, miss, velocity, size,absMagn);
             list.appendChild(listItem);
         });         
     }
