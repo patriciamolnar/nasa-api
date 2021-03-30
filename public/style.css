@@ -252,6 +252,22 @@ button {
     font-weight: bold;
 }
 
+.top {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.top svg {
+    fill: var(--primary);
+    width: 40px;
+    height: 40px;
+}
+
+.top a {
+    border-bottom: none;
+}
+
+
 /* Footer */
 footer {
     margin-top: 1.5rem;
@@ -297,6 +313,14 @@ select:focus {
     outline-offset: -2px;
 }
 
+.top a:focus {
+    outline: none; 
+}
+
+.top a:focus svg {
+    fill: var(--focus);
+}
+
 .footer-social a:focus {
     outline: none;  
 }
@@ -323,5 +347,13 @@ select:focus {
 
     .footer-social a:hover {
         border-bottom: none; 
+    }
+
+    .top a:hover {
+        border-bottom: none;
+    }
+
+    .top svg:hover {
+        fill: var(--secondary);
     }
 }
