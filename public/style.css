@@ -192,7 +192,16 @@ button {
 /* Loading animation */
 
 #loading {
+    text-align: center;
     margin-top: 2rem; 
+}
+
+#loading p {
+    display: inline; 
+    color: var(--secondary); 
+    font-weight: 600;
+    font-size: calc(1em + 2vw);
+    letter-spacing: 1px;
 }
 
 #loading > div {
