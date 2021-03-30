@@ -88,6 +88,7 @@ window.addEventListener('DOMContentLoaded', function() {
             parent.classList.add('appear');
             ele.textContent = '-';
         }
+        ele.blur();
     }
 
 
@@ -263,16 +264,18 @@ window.addEventListener('DOMContentLoaded', function() {
 
     //load next day 
     const next = document.getElementById('next'); 
-    next.addEventListener('click', () => {
+    next.addEventListener('click', (e) => {
         current += 8.64e+7;
         fetchApi(createDate(current), metric); 
+        e.target.blur();
     });
 
     //load previous day
     const prev = document.getElementById('prev'); 
-    prev.addEventListener('click', () => {
+    prev.addEventListener('click', (e) => {
         current -= 8.64e+7;
         fetchApi(createDate(current), metric);
+        e.target.blur();
     });
 
      
@@ -349,7 +352,7 @@ window.addEventListener('DOMContentLoaded', function() {
     const daySearch = document.getElementById('search-day');
 
     const searchBtn = document.getElementById('search-btn'); 
-    searchBtn.addEventListener('click', function() {
+    searchBtn.addEventListener('click', function(e) {
         let year = yearSearch.value; 
         let month = monthSearch.value; 
         let day = daySearch.value; 
@@ -358,6 +361,7 @@ window.addEventListener('DOMContentLoaded', function() {
             current = new Date(year, month - 1, day).getTime();
             fetchApi(input, metric);
         }
+        e.target.blur()
     }); 
     
     //let user change the preferred metric unit 
