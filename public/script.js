@@ -40,6 +40,24 @@ window.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    //if diameter is smaller than 1km or 0.5miles convert to meters or feet
+    const convertMetric = (min, max, metric, metricFull) => {
+        let txt = metricFull;
+        if(min < 1 && metric === 'km') {
+            min *= 1000;
+            max *= 1000;
+            txt = 'meters';
+        } 
+
+        if(min < 0.5 && metric === 'm') {
+            min *= 2640;
+            max *= 2640;
+            txt = 'feet';
+        }
+        
+        return [min, max, txt]
+    }
+
     //create dynamic props based on users selection
     const getProps = (metric, metricFull) => {
         const object = {
@@ -126,25 +144,17 @@ window.addEventListener('DOMContentLoaded', function() {
             }
         }); 
 
-        //if diameter smaller than 1km/0.5m convert to smaller unit.
-        let txt = metricFull;
-        if(biggest[0] < 1 && metric === 'km') {
-            biggest[0] *= 1000;
-            biggest[1] *= 1000;
-            txt = 'meters';
-        } 
-
-        if(biggest[0] < 0.5 && metric === 'm') {
-            biggest[0] *= 2640;
-            biggest[1] *= 2640;
-            txt = 'feet';
-        } 
+    
 
         //append to DOM
         neoHazard.textContent = countHazard; 
-        neoBiggest.innerHTML = `<span class="overview-info">${n(f(biggest[0]))}${txt}</span> 
-        (minimum diameter) <span class="overview-info">${n(biggest[1])}${txt}</span>(maximum diameter)`;
+
+        const diameter = convertMetric(biggest[0], biggest[1], metric, metricFull);
+        neoBiggest.innerHTML = `<span class="overview-info">${n(f(diameter[0]))}${diameter[2]}</span> 
+        (minimum diameter) <span class="overview-info">${n(diameter[1])}${diameter[2]}</span>(maximum diameter)`;
+
         neoFastest.textContent = `${n(f(fastest))}${metric}/h`;
+
         neoClosest.innerHTML = `<span class="overview-info">${n(f(closest))}${metric}</span> away from Earth`;  
     }
 
@@ -200,12 +210,13 @@ window.addEventListener('DOMContentLoaded', function() {
            
             //size 
             const size = document.createElement('p');
-
-            const min = p(neo[props.size].estimated_diameter_min);
-            const max = p(neo[props.size].estimated_diameter_max);
+            let min = p(neo[props.size].estimated_diameter_min);
+            let max = p(neo[props.size].estimated_diameter_max);
+            
+            const diameter = convertMetric(min, max, metric, metricFull);
             size.textContent = `
-            Min Diameter: ${n(f(min))}${metric} 
-            - Max Diameter: ${n(f(max))}${metric}`;
+            Min Diameter: ${n(f(diameter[0]))}${diameter[2]} 
+            - Max Diameter: ${n(f(diameter[1]))}${diameter[2]}`;
 
             //absolute magnitude
             const absMagn = document.createElement('p');
