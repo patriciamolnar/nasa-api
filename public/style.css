@@ -252,6 +252,11 @@ button {
     width: 100%; 
 }
 
+#apod iframe {
+    width: 100%; 
+    border: none; 
+}
+
 #error {
     display: none;
     background-color: #fff; 

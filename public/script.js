@@ -380,15 +380,28 @@ window.addEventListener('DOMContentLoaded', function() {
     const appendApod = (json) => {
         console.log(json);
         if(json.error === undefined || json.url !== undefined) {
-            apod.style.display = 'block';
-            const img = document.createElement('img'); 
-            img.src = json.url;
-            img.alt = json.title;
-            img.title = json.title; 
-            const p = document.createElement('p'); 
-            p.textContent = json.explanation;
-            const link = createLink(['View HD image', json.hdurl]);
-            apod.append(img, p, link);
+            if(json.media_type === 'image') {
+                apod.style.display = 'block';
+                const img = document.createElement('img'); 
+                img.src = json.url;
+                img.alt = json.title;
+                img.title = json.title; 
+                const p = document.createElement('p'); 
+                p.textContent = json.explanation;
+                const link = createLink(['View HD image', json.hdurl]);
+                apod.append(img, p, link);
+            }
+
+            if(json.media_type = 'video') {
+                apod.style.display = 'block';
+                const iframe = document.createElement('iframe');
+                iframe.setAttribute('src', json.url);
+                iframe.setAttribute("width", "426");
+                iframe.setAttribute("height", "240");
+                const p = document.createElement('p'); 
+                p.textContent = json.explanation;
+                apod.append(iframe, p);
+            }
         } 
     }
 
