@@ -366,3 +366,114 @@ select:focus {
         fill: var(--secondary);
     }
 }
+
+/* Desktop */
+
+@media (min-width: 920px) {
+    .hero {
+        margin-bottom: 3rem;
+    }
+
+    .hero img {
+        width: 70%;
+        margin: 1rem auto 0; 
+    }
+
+    .hero p {
+        text-align: center;
+        font-size: calc(1em + 0.6vw);
+    }
+
+    #navigation {
+        width: 50%; 
+        margin: 2rem auto 1rem; 
+    }
+    
+    #navigation button {
+     font-size: 1.5rem;
+     padding: 0.9rem 1.5rem 1rem;
+     font-weight: 400;
+    }
+
+    #date {
+        font-size: 2.5rem;
+    }
+
+    .search {
+        text-align: right;
+    }
+
+    main > div:nth-of-type(1) {
+        text-align: right;
+        margin-bottom: -4rem;
+    }
+    #metric {
+        width: 200px; 
+    }
+
+    /* consistent padding */
+    .hero, #navigation, main, .search, #apod, footer {
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+    }
+
+    #error {
+        margin-left: 2.5rem; 
+        margin-right: 2.5rem;
+    }
+
+    .overview h2 {
+        grid-area: title;
+    }
+
+    .overview {
+        display: grid; 
+        grid-template-columns: repeat(3, 1fr);
+        /* border-bottom: 1px solid var(--secondary); */
+        padding-bottom: 2rem; 
+    }
+
+    .overview > p:nth-of-type(1) {
+        grid-row: 1 / stretch 1; 
+        grid-column: 1 / stretch 1; 
+    }
+
+    .overview > p:nth-of-type(2) {
+        grid-row: 2 / stretch 1; 
+        grid-column: 1 / stretch 1; 
+    }
+
+    .overview > p:nth-of-type(3) {
+        grid-row: 1 / stretch 2; 
+        grid-column: 2 / stretch 1; 
+    }
+
+    .overview > p:nth-of-type(4) {
+        grid-row: 1 / stretch 1; 
+        grid-column: 3 / stretch 1; 
+    }
+
+    .overview > p:nth-of-type(5) {
+        grid-row: 2 / stretch 1; 
+        grid-column: 3 / stretch 1; 
+    }
+
+    .overview > p { 
+        width: 300px; 
+    }
+
+    .overview-info {
+        font-size: calc(1em + 1vw); 
+    }
+
+    .grid-container {
+        display: grid; 
+        grid-template-columns: 1.5fr 1fr;
+        gap: 1.5rem;
+    }
+
+    #apod h2 {
+        border-bottom: none;
+    }
+
+}
