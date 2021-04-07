@@ -58,8 +58,8 @@ h2 {
 
 .no-focus-outline a:focus,
 .no-focus-outline button:focus {
-  outline: none;
-  box-shadow: none; 
+    outline: none;
+    box-shadow: none; 
 }
 
 /* Buttons and link */
@@ -82,7 +82,7 @@ button {
 }
 
 /* consistent padding */
-.hero, #navigation, main, .search, #apod, footer {
+.hero, #navigation, main, .search, footer {
     padding-left: 1rem;
     padding-right: 1rem;
 }
@@ -157,7 +157,7 @@ button {
 }
 
 .overview-info {
-    font-size: calc(1em + 2vw); 
+    font-size: calc(1rem + 2vw); 
     color: var(--secondary);
 }
 
@@ -266,6 +266,10 @@ button {
     font-weight: bold;
 }
 
+.small-link {
+    font-size: 0.8em;
+}
+
 .top {
     text-align: center;
     margin-top: 1.5rem;
@@ -372,11 +376,73 @@ select:focus {
     }
 }
 
-/* Desktop */
+/* Media Queries for different screen sizes */
+
+@media (min-width: 450px) {
+    .search {
+        margin-bottom: 0.5rem;
+    }
+
+    #metric {
+        width: 100px; 
+    }
+}
+
+/* Tablet */
+@media (min-width: 650px) {
+    #navigation button {
+        font-size: 1.1rem;
+        padding: 0.6rem 1.3rem 0.7rem;
+        font-weight: 600;
+    }
+
+    #date {
+        font-size: 2rem;
+    }
+
+    .overview > p {
+         width: 250px;
+    }
+
+    .overview > p:nth-of-type(1) {
+        grid-row: 1 / stretch 1; 
+        grid-column: 1 / stretch 1; 
+    }
+
+    .overview > p:nth-of-type(2) {
+        grid-row: 1 / stretch 1; 
+        grid-column: 2 / stretch 1; 
+    }
+
+    .overview > p:nth-of-type(3) {
+        grid-row: 2 / stretch 2; 
+        grid-column: 2 / stretch 1; 
+    }
+
+    .overview > p:nth-of-type(4) {
+        grid-row: 2 / stretch 1; 
+        grid-column: 1 / stretch 1; 
+    }
+
+    .overview > p:nth-of-type(5) {
+        grid-row: 3 / stretch 1; 
+        grid-column: 1 / stretch 1; 
+    }
+
+    .overview {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 100px 70px auto;
+    }
+}
 
 @media (min-width: 920px) {
+    body {
+        font-size: calc(0.8em + 0.5vw);
+    }
+
     .hero {
-        margin-bottom: 3rem;
+        margin-bottom: 5rem;
     }
 
     .hero img {
@@ -393,31 +459,22 @@ select:focus {
         width: 50%; 
         margin: 2rem auto 1rem; 
     }
-    
-    #navigation button {
-     font-size: 1.5rem;
-     padding: 0.9rem 1.5rem 1rem;
-     font-weight: 400;
-    }
 
     #date {
         font-size: 2.5rem;
     }
 
-    .search {
+    .search,
+    main > div:nth-of-type(1) {
         text-align: right;
     }
 
-    main > div:nth-of-type(1) {
-        text-align: right;
-        margin-bottom: -4rem;
-    }
     #metric {
         width: 200px; 
     }
 
     /* consistent padding */
-    .hero, #navigation, main, .search, #apod, footer {
+    .hero, #navigation, main, .search, footer {
         padding-left: 2.5rem;
         padding-right: 2.5rem;
     }
@@ -427,14 +484,18 @@ select:focus {
         margin-right: 2.5rem;
     }
 
-    .overview h2 {
-        grid-area: title;
+    h2 {
+        border-bottom: none;
+    }
+
+    .overview-h2 {
+        border-bottom: 1px solid var(--secondary);
     }
 
     .overview {
         display: grid; 
         grid-template-columns: repeat(3, 1fr);
-        /* border-bottom: 1px solid var(--secondary); */
+        border-bottom: 1px solid var(--secondary);
         padding-bottom: 2rem; 
     }
 
@@ -464,7 +525,7 @@ select:focus {
     }
 
     .overview > p { 
-        width: 300px; 
+        width: 250px; 
     }
 
     .overview-info {
@@ -477,8 +538,26 @@ select:focus {
         gap: 1.5rem;
     }
 
+    .terms {
+        padding-right: 2.5rem;
+    }
+
     #apod h2 {
         border-bottom: none;
     }
 
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+    /* consistent padding */
+    .hero, #navigation, main, .search, footer {
+        padding-left: 4.5rem;
+        padding-right: 4.5rem;
+    }
+
+    #error {
+        margin-left: 4.5rem; 
+        margin-right: 4.5rem;
+    }
 }
