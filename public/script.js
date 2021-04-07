@@ -378,7 +378,6 @@ window.addEventListener('DOMContentLoaded', function() {
 //Part 2: APOD  
     //append apod image to site
     const appendApod = (json) => {
-        console.log(json);
         if(json.error === undefined || json.url !== undefined) {
             if(json.media_type === 'image') {
                 apod.style.display = 'block';
@@ -392,7 +391,7 @@ window.addEventListener('DOMContentLoaded', function() {
                 apod.append(img, p, link);
             }
 
-            if(json.media_type = 'video') {
+            if(json.media_type === 'video') {
                 apod.style.display = 'block';
                 const iframe = document.createElement('iframe');
                 iframe.setAttribute('src', json.url);
