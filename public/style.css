@@ -128,62 +128,6 @@ button {
     text-transform: unset;
 }
 
-.search label {
-    display: none;
-}
-
-/* List */
-
-#metric {
-    margin-top: 5px;
-    width: 100%; 
-    height: 25px; 
-    font-family: var(--font);
-}
-
-.overview p {
-    font-weight: 500;
-    margin-bottom: 1rem;
-}
-
-.overview span {
-    display: block;  
-    font-weight: 400;
-    margin-top: 5px;
-}
-
-.overview-info {
-    font-size: calc(1rem + 2vw); 
-    color: var(--secondary);
-}
-
-.list-item-button {
-    padding: 0 5px 1px;
-    margin-right: 5px;
-}
-
-.list-item { 
-    margin-bottom: 0.5rem;
-}
-.list-item p {
-    display: none; 
-}
-
-.list-item.appear p {
-    display: block;
-}
-
-.hazard-yes {
-    color: var(--error); 
-    font-weight: 800; 
-    letter-spacing: 1px; 
-}
-
-.hazard-no {
-    color: #33cc33;
-    font-weight: 800;
-    letter-spacing: 1px;
-}
 
 /* Loading animation */
 
@@ -240,18 +184,8 @@ button {
     }
 }
 
-#apod {
-    display: none; 
-}
 
-#apod img {
-    width: 100%; 
-}
-
-#apod iframe {
-    width: 100%; 
-    border: none; 
-}
+/* Error */
 
 .error-container {
     display: none;
@@ -272,10 +206,82 @@ button {
     filter: drop-shadow(0 0 10px rgba(11, 6, 19, 0.5));
 }
 
+/* Overview */
+
+#metric {
+    margin-top: 5px;
+    width: 100%; 
+    height: 25px; 
+    font-family: var(--font);
+}
+
+.overview p {
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.overview span {
+    display: block;  
+    font-weight: 400;
+    margin-top: 5px;
+}
+
+.overview-info {
+    font-size: calc(1rem + 2vw); 
+    color: var(--secondary);
+}
+
+.list-item-button {
+    padding: 0 5px 1px;
+    margin-right: 5px;
+}
+
+.list-item { 
+    margin-bottom: 0.5rem;
+}
+
+.list-item p {
+    display: none; 
+}
+
+.list-item.appear p {
+    display: block;
+}
+
+.hazard-yes {
+    color: var(--error); 
+    font-weight: 800; 
+    letter-spacing: 1px; 
+}
+
+.hazard-no {
+    color: #33cc33;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
 .small-link {
     font-size: 0.8em;
 }
 
+
+/* Astronomical Picture of the Day */
+
+#apod {
+    display: none; 
+}
+
+#apod img {
+    width: 100%; 
+}
+
+#apod iframe {
+    width: 100%; 
+    border: none; 
+}
+
+
+/* Back to top link */
 .top {
     text-align: center;
     margin-top: 1.5rem;
@@ -317,7 +323,7 @@ footer svg {
     fill: var(--primary);
 }
 
-/* Focus */
+/* Focus Rules */
 a:focus,
 #show-search-btn:focus {
     color: var(--focus);
@@ -353,7 +359,7 @@ select:focus {
     fill: var(--focus);
 }
 
-/* Hover */
+/* Hover Rules */
 @media not all and (hover: none) {
     a:hover,
     #show-search-btn:hover {
@@ -476,6 +482,10 @@ select:focus {
         font-size: calc(1em + 3vw);
     }
 
+    h2 {
+        border-bottom: none;
+    }
+
     #navigation {
         width: 50%; 
         margin: 2rem auto 1rem; 
@@ -502,10 +512,6 @@ select:focus {
     .hero, #navigation, main, .error-container, .search, footer {
         padding-left: 2.5rem;
         padding-right: 2.5rem;
-    }
-
-    h2 {
-        border-bottom: none;
     }
 
     .overview-h2 {
@@ -583,5 +589,15 @@ select:focus {
 @media (min-width: 1240px) {
     .metric-selector {
         margin-bottom: -3.3rem;
+    }
+}
+
+@media (min-width: 1900px) {
+    .hero {
+        margin-top: 3rem;
+    }
+    .hero, #navigation, main, .error-container, .search, footer {
+        padding-left: 6.5rem;
+        padding-right: 6.5rem;
     }
 }
