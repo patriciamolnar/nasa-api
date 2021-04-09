@@ -10,8 +10,11 @@ window.addEventListener('DOMContentLoaded', function() {
     const loading = document.getElementById('loading');
     const main = document.querySelector('main');
     const errorDiv = document.getElementById('error');
-    const apod = document.getElementById('apod');
+    const errorContainer = document.querySelector('.error-container');
+    const error1 = document.getElementById('error1');
 
+    const apod = document.getElementById('apod');
+    
     //convert string to float
     const p = (str) => {
         return parseFloat(str);
@@ -28,8 +31,9 @@ window.addEventListener('DOMContentLoaded', function() {
     }
 
     const handleError = (msg) => {
-        errorDiv.style.display = 'block';
+        errorContainer.style.display = 'block';
         errorDiv.textContent = msg;
+        error1.style.display = 'block';
     }
 
     const getMetric = (str) => {
@@ -97,10 +101,11 @@ window.addEventListener('DOMContentLoaded', function() {
         try {
             console.log(json); 
             if (json.amount === undefined) { //if no asteroids returned for date
-                errorDiv.style.display = 'block';
+                errorContainer.style.display = 'block';
                 errorDiv.textContent = 'No NEOs spotted on the selected date.';
             } else {
-                errorDiv.style.display = 'none';
+                errorContainer.style.display = 'none';
+                error1.style.display = 'none'
                 neoTotal.textContent = json.amount;
                 filterSize(json.asteroids, metric);
                 list.textContent = ''; 
@@ -305,19 +310,19 @@ window.addEventListener('DOMContentLoaded', function() {
         //check if entry can be converted into date
         const date = new Date(year, month-1, day);         
         if(date == 'Invalid Date') {
-            handleError('Please enter a valid date'); 
+            handleError('Please enter a valid date.'); 
             return false;
         }
 
         //ensure year contains 4 digits
         if(year.length !== 4) {
-            handleError('Please enter a valid year'); 
+            handleError('Please enter a valid year.'); 
             return false;
         }
 
         //month should be within 1 - 12
         if(month < 1 || month > 12) {
-            handleError('Please enter a valid month'); 
+            handleError('Please enter a valid month.'); 
             return false;
         }
 
@@ -326,13 +331,13 @@ window.addEventListener('DOMContentLoaded', function() {
         //months with 31 days
         if(m == 1 || m == 3 || m == 5 || m == 7 || m == 8 || m == 10 || m == 12) {
             if(day < 1 || day > 31) {
-                handleError('Please enter a valid date'); 
+                handleError('Please enter a valid date.'); 
                 return false;
             }
         } else if (m === 2) { //february
             if(((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0)) {
                 if(day < 1 || day > 29) { //if leap year
-                    handleError('Please enter a valid date'); 
+                    handleError('Please enter a valid date.'); 
                     return false;
                 }
             } else { //if not leap year
@@ -343,7 +348,7 @@ window.addEventListener('DOMContentLoaded', function() {
             }
         } else { //months with 30 days
             if(day < 1 || day > 30) {
-                handleError('Please enter a valid date'); 
+                handleError('Please enter a valid date.'); 
                 return false;
             }
         } 

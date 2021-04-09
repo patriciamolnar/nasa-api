@@ -83,14 +83,9 @@ button {
 }
 
 /* consistent padding */
-.hero, #navigation, main, .search, footer {
+.hero, #navigation, main, .error-container, .search, footer {
     padding-left: 1rem;
     padding-right: 1rem;
-}
-
-#error {
-    margin-left: 1rem; 
-    margin-right: 1rem;
 }
 
 /* Navigation and Search */
@@ -258,13 +253,22 @@ button {
     border: none; 
 }
 
-#error {
+.error-container {
     display: none;
-    background-color: #fff; 
-    color: var(--error); 
-    border: 5px solid var(--error); 
+    color: var(--focus); 
     padding: 0.5rem;
-    font-weight: bold;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-align: center;
+    font-size: calc(1em + 1.5vw);
+    margin-top: 2rem;
+}
+
+#error1 {
+    display: block;
+    width: 100%;
+    display: none;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.1));
 }
 
 .small-link {
@@ -404,6 +408,11 @@ select:focus {
         font-size: 2rem;
     }
 
+    #error1 {
+        width: 600px;
+        margin: 0 auto;
+    }
+
     .overview > p {
          width: 250px;
     }
@@ -481,14 +490,9 @@ select:focus {
     }
 
     /* consistent padding */
-    .hero, #navigation, main, .search, footer {
+    .hero, #navigation, main, .error-container, .search, footer {
         padding-left: 2.5rem;
         padding-right: 2.5rem;
-    }
-
-    #error {
-        margin-left: 2.5rem; 
-        margin-right: 2.5rem;
     }
 
     h2 {
@@ -558,14 +562,9 @@ select:focus {
 /* Desktop */
 @media (min-width: 1024px) {
     /* consistent padding */
-    .hero, #navigation, main, .search, footer {
+    .hero, #navigation, main, .error-container, .search, footer {
         padding-left: 4.5rem;
         padding-right: 4.5rem;
-    }
-
-    #error {
-        margin-left: 4.5rem; 
-        margin-right: 4.5rem;
     }
 }
 
