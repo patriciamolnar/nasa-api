@@ -25,6 +25,7 @@ body {
 .hero img {
     margin-top: 1rem;
     width: 100%;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.1));
 }
 
 .hero p {
@@ -390,6 +391,9 @@ select:focus {
 
 /* Tablet */
 @media (min-width: 650px) {
+    .hero img {
+        width: 70%; 
+    }
     #navigation button {
         font-size: 1.1rem;
         padding: 0.6rem 1.3rem 0.7rem;
@@ -441,18 +445,17 @@ select:focus {
         font-size: calc(0.8em + 0.5vw);
     }
 
-    .hero {
-        margin-bottom: 5rem;
-    }
-
     .hero img {
-        width: 70%;
-        margin: 1rem auto 0; 
+        max-width: 400px;
+        margin-bottom: -1.5rem;
     }
 
     .hero p {
         text-align: center;
-        font-size: calc(1em + 0.6vw);
+    }
+
+    h1 {
+        font-size: calc(1em + 3vw);
     }
 
     #navigation {
@@ -467,6 +470,10 @@ select:focus {
     .search,
     main > div:nth-of-type(1) {
         text-align: right;
+    }
+
+    .metric-selector {
+        margin-bottom: -3rem;
     }
 
     #metric {
@@ -559,5 +566,11 @@ select:focus {
     #error {
         margin-left: 4.5rem; 
         margin-right: 4.5rem;
+    }
+}
+
+@media (min-width: 1240px) {
+    .metric-selector {
+        margin-bottom: -3.3rem;
     }
 }

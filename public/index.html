@@ -9,15 +9,16 @@
 </head>
 <body>
     <div class="hero" id="top">
-        <img src="https://via.placeholder.com/300x150" alt="Near Earth Object Tracker Dinosaur">
-        <h1>Near Earth Object <span>Tracker</span></h1>
-        <p>
-            Keeping a watch on all the potentially hazardous end of the world objects.
-        </p>
-
-        <p>
-            View how many near earth objects there are today, tomorrow, next year, or the day you were born. 
-        </p>
+        <img src="img/header.png" alt="Near Earth Object Tracker Dinosaur">
+        <div>
+            <h1>Near Earth Object <span>Tracker</span></h1>
+            <p>
+                Keeping a watch on all the potentially hazardous end of the world objects.
+            </p>
+            <p>
+                View how many near earth objects there are today, tomorrow, next year, or the day you were born. 
+            </p>
+        </div>
     </div>
 
     <div id="navigation">
@@ -29,7 +30,6 @@
     <div class="search">
         <button type="button" id="show-search-btn">Look up specific day</button>
         <div class="search-form">
-            <!-- <span>Type in date:</span> -->
             <label for="search-year">type in year</label>
             <input type="text" maxlength="4" size="4" name="search-year" id="search-year" placeholder="YYYY">
             <label for="search-month">type in month</label>
@@ -51,7 +51,7 @@
 
     </div>
     <main>
-        <div>
+        <div class="metric-selector">
             <label for="metric">Your preferred metric unit:</label>
             <select name="metric" id="metric">
                 <option value="km">Kilometers</option>
