@@ -12,7 +12,7 @@ window.addEventListener('DOMContentLoaded', function() {
     const errorDiv = document.getElementById('error');
     const errorContainer = document.querySelector('.error-container');
     const error1 = document.getElementById('error1');
-
+    const error2 = document.getElementById('error2');
     const apod = document.getElementById('apod');
     
     //convert string to float
@@ -34,6 +34,7 @@ window.addEventListener('DOMContentLoaded', function() {
         errorContainer.style.display = 'block';
         errorDiv.textContent = msg;
         error1.style.display = 'block';
+        error2.style.display = 'none';
     }
 
     const getMetric = (str) => {
@@ -99,13 +100,15 @@ window.addEventListener('DOMContentLoaded', function() {
     const appendData = (json, metric) => {
         loading.style.display = 'none';
         try {
-            console.log(json); 
             if (json.amount === undefined) { //if no asteroids returned for date
                 errorContainer.style.display = 'block';
+                error1.style.display = 'none';
+                error2.style.display = 'block';
                 errorDiv.textContent = 'No NEOs spotted on the selected date.';
             } else {
                 errorContainer.style.display = 'none';
-                error1.style.display = 'none'
+                error1.style.display = 'none'; 
+                error2.style.display = 'none'
                 neoTotal.textContent = json.amount;
                 filterSize(json.asteroids, metric);
                 list.textContent = ''; 

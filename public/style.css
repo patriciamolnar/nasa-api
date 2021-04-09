@@ -25,7 +25,7 @@ body {
 .hero img {
     margin-top: 1rem;
     width: 100%;
-    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.1));
+    filter: drop-shadow(0 0 10px rgba(11, 6, 19, 0.5));
 }
 
 .hero p {
@@ -264,11 +264,12 @@ button {
     margin-top: 2rem;
 }
 
-#error1 {
+#error1, 
+#error2 {
     display: block;
     width: 100%;
     display: none;
-    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.1));
+    filter: drop-shadow(0 0 10px rgba(11, 6, 19, 0.5));
 }
 
 .small-link {
@@ -408,7 +409,8 @@ select:focus {
         font-size: 2rem;
     }
 
-    #error1 {
+    #error1, 
+    #error2 {
         width: 600px;
         margin: 0 auto;
     }
