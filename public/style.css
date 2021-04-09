@@ -396,9 +396,14 @@ select:focus {
 
 /* Tablet */
 @media (min-width: 650px) {
-    .hero img {
-        width: 70%; 
+    .hero {
+        margin-bottom: 4rem;
     }
+
+    .hero img {
+        width: 60%; 
+    }
+
     #navigation button {
         font-size: 1.1rem;
         padding: 0.6rem 1.3rem 0.7rem;
@@ -463,6 +468,8 @@ select:focus {
 
     .hero p {
         text-align: center;
+        width: 75%;
+        margin: 1rem auto;
     }
 
     h1 {
@@ -563,6 +570,9 @@ select:focus {
 
 /* Desktop */
 @media (min-width: 1024px) {
+    .hero p {
+        width: 75%;
+    }
     /* consistent padding */
     .hero, #navigation, main, .error-container, .search, footer {
         padding-left: 4.5rem;
