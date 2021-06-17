@@ -57,12 +57,6 @@ h2 {
     border-bottom: 1px solid var(--secondary);
 }
 
-.no-focus-outline a:focus,
-.no-focus-outline button:focus {
-    outline: none;
-    box-shadow: none; 
-}
-
 /* Buttons and link */
 a {
     color: var(--primary);
@@ -332,15 +326,32 @@ a:focus,
     border-bottom: none;
 }
 
+.no-focus-outline a:focus,
+.no-focus-outline #show-search-btn:focus {
+    outline: none;
+    box-shadow: none; 
+    color: var(--primary); 
+    border-bottom: 1px solid var(--primary);
+}
+
 button:focus {
     background-color: var(--focus);
     outline: none;
+}
+
+.no-focus-outline button:focus {
+    background-color: var(--primary);
 }
 
 input:focus, 
 select:focus {
     outline: 3px solid var(--focus);
     outline-offset: -2px;
+}
+
+.no-focus-outline input:focus, 
+.no-focus-outline select:focus {
+    outline: none; 
 }
 
 .top a:focus {
@@ -351,12 +362,21 @@ select:focus {
     fill: var(--focus);
 }
 
+.no-focus-outline .top a:focus svg {
+    fill: var(--primary);
+}
+
 .footer-social a:focus {
     outline: none;  
+    border-bottom: none; 
 }
 
 .footer-social a:focus svg {
     fill: var(--focus);
+}
+
+.no-focus-outline .footer-social a:focus svg {
+    fill: var(--primary);
 }
 
 /* Hover Rules */
